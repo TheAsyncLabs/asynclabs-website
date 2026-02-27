@@ -62,7 +62,7 @@ const ProcessPhases = () => {
 
         <div className="relative">
           {/* Connecting line */}
-          <div className="hidden lg:block absolute top-24 left-0 right-0 h-px bg-border" />
+          <div className="hidden lg:block absolute top-24 left-0 right-0 h-px bg-sunset opacity-30" />
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-4">
             {phases.map((phase, i) => (
@@ -75,7 +75,7 @@ const ProcessPhases = () => {
                 className="relative"
               >
                 {/* Phase number circle */}
-                <div className="relative z-10 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold mb-6 mx-auto lg:mx-0">
+                <div className="relative z-10 w-12 h-12 rounded-full bg-sunset text-white flex items-center justify-center text-sm font-bold mb-6 mx-auto lg:mx-0">
                   {phase.number}
                 </div>
 
@@ -113,7 +113,7 @@ const ProcessPhases = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center mt-20"
         >
-          <Button size="lg" className="rounded-full px-10 text-base gap-2 group">
+          <Button size="lg" className="rounded-full px-10 text-base gap-2 group bg-sunset hover:bg-sunset-hover border-0 text-white">
             Let's Start Your App Architecture
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Button>

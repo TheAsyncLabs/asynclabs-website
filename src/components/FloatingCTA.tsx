@@ -10,7 +10,7 @@ const FloatingCTA = () => {
       transition={{ delay: 2, duration: 0.4 }}
       className="fixed bottom-6 right-6 z-40"
     >
-      <Button size="lg" className="rounded-full shadow-lg gap-2 px-6">
+      <Button size="lg" className="rounded-full shadow-lg gap-2 px-6 bg-sunset hover:bg-sunset-hover border-0 text-white">
         <MessageCircle className="w-4 h-4" />
         Book Consultation
       </Button>

@@ -19,7 +19,7 @@ const Hero = () => {
           </p>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.05]">
             We Build Scalable Flutter Apps —{" "}
-            <span className="text-muted-foreground">The Right Way.</span>
+            <span className="text-sunset">The Right Way.</span>
           </h1>
         </motion.div>
 
@@ -38,7 +38,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Button size="lg" className="rounded-full px-8 text-base gap-2 group">
+          <Button size="lg" className="rounded-full px-8 text-base gap-2 group bg-sunset hover:bg-sunset-hover border-0 text-white">
             Start Your App Architecture
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Button>
