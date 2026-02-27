@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Search, PenTool, Server, Code2, Rocket } from "lucide-react";
+import { ArrowRight, Search, PenTool, Server, Code2, Rocket, ChevronDown } from "lucide-react";
 
 const phases = [
   {
@@ -40,10 +41,86 @@ const phases = [
   },
 ];
 
+type Phase = (typeof phases)[number];
+
+const PhaseCard = ({ phase, index }: { phase: Phase; index: number }) => {
+  const [expanded, setExpanded] = useState(false);
+  const isLeft = index % 2 === 0;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, delay: 0.1 }}
+      onClick={() => setExpanded(!expanded)}
+      className="cursor-pointer rounded-xl border border-border bg-card p-6 hover:border-[#F06B3A]/30 hover:shadow-lg hover:shadow-[#E0337A]/5 transition-all duration-300"
+    >
+      <div className="flex items-start gap-4">
+        <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+          <phase.icon className="w-5 h-5 text-foreground" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg font-bold text-foreground">{phase.title}</h3>
+          <p className="text-sm text-muted-foreground">{phase.subtitle}</p>
+        </div>
+        <motion.div
+          animate={{ rotate: expanded ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="shrink-0 mt-1"
+        >
+          <ChevronDown className="w-5 h-5 text-muted-foreground" />
+        </motion.div>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <ul className="mt-4 pt-4 border-t border-border space-y-3">
+              {phase.points.map((point, pi) => (
+                <motion.li
+                  key={point}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.25, delay: pi * 0.08 }}
+                  className="text-sm text-muted-foreground flex items-start gap-2"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-sunset mt-1.5 shrink-0" />
+                  {point}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
 const ProcessPhases = () => {
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 0.8", "end 0.8"],
+  });
+
+  const clipPath = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["inset(0 0 100% 0)", "inset(0 0 0% 0)"]
+  );
+
   return (
     <section className="section-padding bg-secondary/30">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -60,52 +137,54 @@ const ProcessPhases = () => {
           </p>
         </motion.div>
 
-        <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden lg:block absolute top-24 left-0 right-0 h-px bg-sunset opacity-30" />
+        {/* Timeline */}
+        <div ref={timelineRef} className="relative">
+          {/* Static track line */}
+          <div className="absolute left-6 md:left-1/2 top-0 w-[2px] md:-translate-x-[1px] h-full bg-border/50" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-4">
-            {phases.map((phase, i) => (
-              <motion.div
-                key={phase.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                className="relative"
-              >
-                {/* Phase number circle */}
-                <div className="relative z-10 w-12 h-12 rounded-full bg-sunset text-white flex items-center justify-center text-sm font-bold mb-6 mx-auto lg:mx-0">
-                  {phase.number}
-                </div>
+          {/* Animated sunset line */}
+          <motion.div
+            className="absolute left-6 md:left-1/2 top-0 w-[2px] md:-translate-x-[1px] h-full bg-sunset-vertical"
+            style={{ clipPath }}
+          />
 
-                {/* Arrow connector (desktop) */}
-                {i < phases.length - 1 && (
-                  <div className="hidden lg:block absolute top-6 left-[calc(100%-8px)] z-20">
-                    <ArrowRight className="w-4 h-4 text-muted-foreground" />
+          {/* Phase rows */}
+          <div className="space-y-12 md:space-y-16">
+            {phases.map((phase, i) => {
+              const isLeft = i % 2 === 0;
+
+              return (
+                <div
+                  key={phase.title}
+                  className="relative grid grid-cols-[48px_1fr] md:grid-cols-[1fr_48px_1fr] gap-4 md:gap-8 items-start"
+                >
+                  {/* Left column (desktop only) */}
+                  <div className="hidden md:block">
+                    {isLeft && <PhaseCard phase={phase} index={i} />}
                   </div>
-                )}
 
-                <div className="text-center lg:text-left">
-                  <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center mb-3 mx-auto lg:mx-0">
-                    <phase.icon className="w-5 h-5 text-foreground" />
+                  {/* Center: phase number circle */}
+                  <div className="relative z-10 flex items-center justify-center">
+                    <div className="absolute w-12 h-12 rounded-full bg-sunset opacity-20 blur-md" />
+                    <div className="relative w-12 h-12 rounded-full bg-sunset text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-[#E0337A]/25">
+                      {phase.number}
+                    </div>
                   </div>
-                  <h3 className="text-lg font-bold text-foreground">{phase.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{phase.subtitle}</p>
-                  <ul className="space-y-2">
-                    {phase.points.map((point) => (
-                      <li key={point} className="text-sm text-muted-foreground flex items-start gap-2 justify-center lg:justify-start">
-                        <span className="w-1 h-1 rounded-full bg-muted-foreground mt-2 shrink-0" />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
+
+                  {/* Right column (desktop) / Main column (mobile) */}
+                  <div className="block md:hidden">
+                    <PhaseCard phase={phase} index={i} />
+                  </div>
+                  <div className="hidden md:block">
+                    {!isLeft && <PhaseCard phase={phase} index={i} />}
+                  </div>
                 </div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

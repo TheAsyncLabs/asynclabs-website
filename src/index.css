@@ -121,6 +121,10 @@
     background-image: linear-gradient(135deg, #e05e2f, #cc2d6e);
   }
 
+  .bg-sunset-vertical {
+    background-image: linear-gradient(to bottom, #F06B3A, #E0337A);
+  }
+
   .glass {
     backdrop-filter: blur(20px) saturate(180%);
     background-color: hsla(0, 0%, 100%, 0.72);
