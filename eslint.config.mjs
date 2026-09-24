@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "_reference/**",
+    "asynclabs-website-main(1)/**",
+    "asynclabs-website-main (2)/**",
   ]),
 ]);
 

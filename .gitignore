@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# reference-only source dumps, not part of this app
+/_reference/
+asynclabs-website-main.zip
+/asynclabs-website-main(1)/
+/asynclabs-website-main (2)/

@@ -30,5 +30,10 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "_reference",
+    "asynclabs-website-main(1)",
+    "asynclabs-website-main (2)"
+  ]
 }
