@@ -74,10 +74,10 @@ const PRACTICES = [
   },
   {
     slug: "app-development",
-    href: "https://theasynclabs.com/",
-    external: true,
+    href: "/app-development",
+    external: false,
     name: "App Development",
-    tagline: "Cross-platform mobile apps — now living on our main site.",
+    tagline: "Scalable Flutter apps with structured architecture, built for iOS and Android.",
     icon: Smartphone,
     image: null,
     capabilities: ["Mobile App Development", "Product Engineering", "Full-Stack Development", "Backend Engineering"],

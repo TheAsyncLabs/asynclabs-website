@@ -9,7 +9,7 @@ import { useCursor } from "@/lib/cursor-context";
 
 const STUDIOS = [
   { label: "AI Integration", href: "/ai", external: false },
-  { label: "App Development", href: "https://theasynclabs.com/", external: true },
+  { label: "App Development", href: "/app-development", external: false },
   { label: "Web Development", href: "/web-development", external: false },
 ];
 
