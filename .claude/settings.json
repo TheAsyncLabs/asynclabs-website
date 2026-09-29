@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'feat: add app-development vertical restored from feature/latest-omkar \\(b9e5a35\\) *)",
+      "Bash(git push *)"
+    ]
+  }
+}
