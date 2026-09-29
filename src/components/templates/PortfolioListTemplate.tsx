@@ -33,6 +33,12 @@ export default function PortfolioListTemplate({ vertical }: { vertical: Vertical
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted">{vertical.tagline}</p>
       </div>
 
+      {vertical.portfolio.length === 0 && (
+        <p className="mx-auto mt-16 max-w-2xl text-center text-muted">
+          Case studies coming soon. Want to be the first? Get in touch.
+        </p>
+      )}
+
       <div className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {vertical.portfolio.map((project) => (
           <Reveal key={project.id} start="top 92%" end="bottom 8%">
